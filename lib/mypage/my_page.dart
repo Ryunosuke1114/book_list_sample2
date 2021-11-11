@@ -1,7 +1,7 @@
 import 'package:book_list_sample2/edit_profile/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'my_model.dart';
+import 'my_state.dart';
 
 class MyPage extends StatelessWidget {
 

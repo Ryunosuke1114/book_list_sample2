@@ -1,4 +1,4 @@
-import 'package:book_list_sample2/register/register_model.dart';
+import 'package:book_list_sample2/register/register_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

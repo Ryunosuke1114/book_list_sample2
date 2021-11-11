@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BookListSample',
-      home: BookListPage(),
+      home: BookListPage.wrapped(),
     );
   }
 }
