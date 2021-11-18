@@ -1,71 +1,77 @@
 import 'package:book_list_sample2/domain/book.dart';
 import 'package:book_list_sample2/edit_book/edit_book_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 
 class EditBookPage extends StatelessWidget {
-  final Book book;
-  EditBookPage(this.book);
+
+  const EditBookPage._({Key? key}) : super(key: key);
+
+  static Widget wrapped({required Book book}) {
+    return StateNotifierProvider<EditBookModel, EditBook>(
+      create: (_) => EditBookModel(book.id!),
+      child: const EditBookPage._(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    return ChangeNotifierProvider<EditBookModel>(
-      create: (_) => EditBookModel(book),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("本の編集"),
-        ),
-        body: Center(
-          child: Consumer<EditBookModel>(builder: (context, model, child) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(children: [
-                TextField(
-                  controller: model.titleController,
-                  decoration: InputDecoration(
-                    hintText: '本のタイトル',
-                  ),
-                  onChanged: (text) {
-                    model.setTitle(text);
-                  },
+    final controller = Provider.of<EditBookModel>(context,listen: false);
+    final model = Provider.of<EditBook>(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("本の編集"),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              TextField(
+                controller: controller.titleController,
+                decoration: InputDecoration(
+                  hintText: '本のタイトル',
                 ),
-                SizedBox(
-                  height: 8,
+                onChanged: (text) {
+                  controller.setTitle(text);
+                },
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              TextField(
+                controller: controller.authorController,
+                decoration: InputDecoration(
+                  hintText: '本の著者',
                 ),
-                TextField(
-                  controller: model.authorController,
-                  decoration: InputDecoration(
-                    hintText: '本の著者',
-                  ),
-                  onChanged: (text) {
-                    model.setAuthor(text);
-                  },
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                ElevatedButton(
-                  onPressed: model.isUpdated()
-                      ? () async {
-                       //追加処理
-                      try{
-                        await model.update();
-                        Navigator.of(context).pop(model.title);
-                      } catch(e){
-                        final snackBar = SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text(e.toString()),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                onChanged: (text) {
+                  controller.setAuthor(text);
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              ElevatedButton(
+                onPressed: controller.isUpdated()
+                    ? () async {
+                        //追加処理
+                        try {
+                          await controller.update();
+                          Navigator.of(context).pop(model.title);
+                        } catch (e) {
+                          final snackBar = SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text(e.toString()),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
                       }
-                    }
                     : null,
-                  child: Text("更新する"),
-                ),
-              ]),
-            );
-          }),
+                child: Text("更新する"),
+              ),
+            ],
+          ),
         ),
       ),
     );

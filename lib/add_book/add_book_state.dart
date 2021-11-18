@@ -1,25 +1,33 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:state_notifier/state_notifier.dart';
 
-class AddBookModel extends ChangeNotifier{
-  String? title;
-  String? author;
-  File? imageFile;
-  bool isLoading = false;
+part 'add_book_state.freezed.dart';
+
+@freezed
+class AddBook with _$AddBook {
+  const factory AddBook({
+    String? title,
+    String? author,
+    File? imageFile,
+    @Default(false) bool isLoading
+  }) = AddBook;
+}
+
+
+class AddBookModel extends StateNotifier<AddBook>{
 
   final picker = ImagePicker();
 
   void startLoading(){
-    isLoading = true;
-    notifyListeners();
+    state.isLoading = true;
   }
 
   void endLoading(){
-    isLoading = false;
-    notifyListeners();
+    state.isLoading = false;
   }
 
 

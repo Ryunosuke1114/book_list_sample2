@@ -10,15 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
-import 'package:state_notifier/state_notifier.dart';
 
 class BookListPage extends StatelessWidget {
-  const BookListPage({Key? key}) : super(key: key);
+  const BookListPage._({Key? key}) : super(key: key);
 
   static Widget wrapped() {
     return StateNotifierProvider<BookListController, BookList>(
       create: (_) => BookListController(),
-      child: BookListPage(),
+      child: BookListPage._(),
     );
   }
 
@@ -77,7 +76,7 @@ class BookListPage extends StatelessWidget {
                   final String? title = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditBookPage(book),
+                      builder: (context) => EditBookPage.wrapped(book:book),
                     ),
                   );
                   if (title != null) {

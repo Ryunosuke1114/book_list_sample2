@@ -7,6 +7,6 @@ part 'book_list.freezed.dart';
 @freezed
 class BookList with _$BookList {
   const factory BookList({
-    List<Book>? books
+    List<Book>? books,
 }) = _BookList;
 }
