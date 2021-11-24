@@ -1,7 +1,7 @@
 import 'package:book_list_sample2/register/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'login_model.dart';
+import 'login_state.dart';
 
 class LoginPage extends StatelessWidget {
 
