@@ -32,7 +32,9 @@ class EditBookModel extends StateNotifier<EditBook> {
   }
 
   void setAuthor(String author) {
-    state = state.copyWith(author: author);
+    state = state.copyWith(
+        author: author
+    );
   }
 
   bool isUpdated() {

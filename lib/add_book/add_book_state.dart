@@ -14,28 +14,40 @@ class AddBook with _$AddBook {
     String? author,
     File? imageFile,
     @Default(false) bool isLoading
-  }) = AddBook;
+  }) = _AddBook;
 }
 
-
 class AddBookModel extends StateNotifier<AddBook>{
+  AddBookModel() : super(const AddBook());
 
   final picker = ImagePicker();
 
+  void setTitle(String title) {
+    state = state.copyWith(
+      title: title,
+    );
+  }
+
+  void setAuthor(String author) {
+    state = state.copyWith(
+        author: author
+    );
+  }
+
   void startLoading(){
-    state.isLoading = true;
+    state = state.copyWith( isLoading:true );
   }
 
   void endLoading(){
-    state.isLoading = false;
+    state = state.copyWith( isLoading:false );
   }
 
 
   Future addBook() async {
-    if (title == null || title == ""){
+    if (state.title == null || state.title == ""){
       throw 'タイトルが入力されていません';
     }
-    if (author == null || author == ""){
+    if (state.author == null || state.author == ""){
       throw '著者が入力されていません';
     }
 
@@ -43,19 +55,19 @@ class AddBookModel extends StateNotifier<AddBook>{
 
     String? imgURL;
 
-    if (imageFile != null) {
+    if (state.imageFile != null) {
       //storageにアップロード
       final task = await FirebaseStorage.instance
           .ref('books/${doc.id}')
-          .putFile(imageFile!);
+          .putFile(state.imageFile!);
       imgURL = await task.ref.getDownloadURL();
     }
 
 
     //firestoreに追加
     await doc.set({
-      "title": title,
-      "author": author,
+      "title": state.title,
+      "author": state.author,
       "imgURL": imgURL,
     });
   }
@@ -63,9 +75,8 @@ class AddBookModel extends StateNotifier<AddBook>{
   Future pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      imageFile = File(pickedFile.path);
-      notifyListeners();
-    }
+      state = state.copyWith( imageFile: File(pickedFile.path) );
 
+    }
   }
 }
