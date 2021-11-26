@@ -1,44 +1,53 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:state_notifier/state_notifier.dart';
 
-class LoginModel extends ChangeNotifier{
+part 'login_state.freezed.dart';
+
+@freezed
+class Login with _$Login {
+  const factory Login({
+    String? email,
+    String? password,
+    @Default(false) bool isLoading,
+  }) = _Login;
+}
+
+class LoginModel extends StateNotifier<Login> {
+  LoginModel() : super(const Login());
+
+  get isLoading => null;
+  set email(String email) {}
+  set password(String password) {}
 
   final titleController = TextEditingController();
   final authorController = TextEditingController();
 
-  String? email;
-  String? password;
-  bool isLoading = false;
-
   void startLoading(){
-    isLoading = true;
-    notifyListeners();
+    state = state.copyWith( isLoading:true );
   }
 
   void endLoading(){
-    isLoading = false;
-    notifyListeners();
+    state.isLoading;
   }
 
   void setEmail(String email){
-    this.email = email;
-    notifyListeners();
+    state = state.copyWith(email: email);
   }
 
   void setPassword(String password){
-    this.password = password;
-    notifyListeners();
+    state = state.copyWith(password: password);
   }
 
   Future login() async {
-    this.email = titleController.text;
-    this.password = authorController.text;
+    email = titleController.text;
+    password = authorController.text;
 
-    if(email != null && password != null){
+    if(state.email != null && state.password != null){
       //ログイン
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email!, password: password!);
+          .signInWithEmailAndPassword(email:state.email!, password:state.password!);
     }
   }
 }

@@ -12,6 +12,7 @@ import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 
 class BookListPage extends StatelessWidget {
+
   const BookListPage._({Key? key}) : super(key: key);
 
   static Widget wrapped() {
@@ -111,7 +112,7 @@ class BookListPage extends StatelessWidget {
             final bool? added = await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AddBookPage(),
+                builder: (context) => AddBookPage.wrapped(),
                 fullscreenDialog: true,
               ),
             );

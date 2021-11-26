@@ -20,6 +20,9 @@ class AddBook with _$AddBook {
 class AddBookModel extends StateNotifier<AddBook>{
   AddBookModel() : super(const AddBook());
 
+  set title(String title) {}
+  set author(String author) {}
+
   final picker = ImagePicker();
 
   void setTitle(String title) {

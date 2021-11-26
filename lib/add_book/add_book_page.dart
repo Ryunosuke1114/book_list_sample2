@@ -4,14 +4,7 @@ import 'package:provider/provider.dart';
 import 'add_book_state.dart';
 
 class AddBookPage extends StatelessWidget {
-
   const AddBookPage({Key? key}) : super(key: key);
-
-  set title(String title) {}
-
-  set author(String author) {}
-
-  widget({required Consumer<AddBook> child}) {}
 
   static Widget wrapped() {
     return StateNotifierProvider<AddBookModel, AddBook>(
@@ -19,6 +12,8 @@ class AddBookPage extends StatelessWidget {
       child: const AddBookPage(),
     );
   }
+
+  widget({required Consumer<AddBook> child}) {}
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +53,7 @@ class AddBookPage extends StatelessWidget {
                                   hintText: '本のタイトル',
                                 ),
                                 onChanged: (text) {
-                                  title = text;
+                                  controller.title = text;
                                 },
                               ),
                               SizedBox(
@@ -69,7 +64,7 @@ class AddBookPage extends StatelessWidget {
                                   hintText: '本の著者',
                                 ),
                                 onChanged: (text) {
-                                  author = text;
+                                 controller.author = text;
                                 },
                               ),
                               SizedBox(

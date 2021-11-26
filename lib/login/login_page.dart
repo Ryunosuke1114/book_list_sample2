@@ -1,16 +1,25 @@
 import 'package:book_list_sample2/register/register_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 import 'login_state.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
+  static Widget wrapped() {
+    return StateNotifierProvider<LoginModel, Login>(
+      create: (_) => LoginModel(),
+      child: const LoginPage(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<LoginModel>(context, listen: false);
+    final model = Provider.of<Login>(context);
 
-    return ChangeNotifierProvider<LoginModel>(
-      create: (_) => LoginModel(),
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text("ログイン"),
         ),
@@ -79,7 +88,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ],),
                 ),
-                if (model.isLoading)
+                if (controller.isLoading)
                   Container(
                     color: Colors. black54,
                     child: Center(
@@ -90,7 +99,6 @@ class LoginPage extends StatelessWidget {
             );
           }),
         ),
-      ),
-    );
+      );
   }
 }
