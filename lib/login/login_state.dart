@@ -17,7 +17,8 @@ class Login with _$Login {
 class LoginModel extends StateNotifier<Login> {
   LoginModel() : super(const Login());
 
-  get isLoading => null;
+  get isLoading => false;
+
   set email(String email) {}
   set password(String password) {}
 
@@ -25,7 +26,7 @@ class LoginModel extends StateNotifier<Login> {
   final authorController = TextEditingController();
 
   void startLoading(){
-    state = state.copyWith( isLoading:true );
+    state = state.copyWith(isLoading: true);
   }
 
   void endLoading(){
@@ -33,11 +34,15 @@ class LoginModel extends StateNotifier<Login> {
   }
 
   void setEmail(String email){
-    state = state.copyWith(email: email);
+    state = state.copyWith(
+        email: email
+    );
   }
 
   void setPassword(String password){
-    state = state.copyWith(password: password);
+    state = state.copyWith(
+        password: password
+    );
   }
 
   Future login() async {

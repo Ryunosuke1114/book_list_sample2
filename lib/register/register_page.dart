@@ -47,7 +47,6 @@ class RegisterPage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () async {
                         model.startLoading();
-
                         //追加処理
                         try{
                           await model.signUp();

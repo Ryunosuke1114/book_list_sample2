@@ -37,7 +37,7 @@ class BookListPage extends StatelessWidget {
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyPage(),
+                    builder: (context) => MyPage.wrapped(),
                     fullscreenDialog: true,
                   ),
                 );
@@ -45,7 +45,7 @@ class BookListPage extends StatelessWidget {
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => LoginPage(),
+                    builder: (context) => LoginPage.wrapped(),
                     fullscreenDialog: true,
                   ),
                 );

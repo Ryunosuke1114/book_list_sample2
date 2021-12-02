@@ -71,7 +71,7 @@ class AddBookModel extends StateNotifier<AddBook>{
     await doc.set({
       "title": state.title,
       "author": state.author,
-      "imgURL": imgURL,
+      "imgURL": state.imageFile,
     });
   }
 
