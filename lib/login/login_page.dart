@@ -79,7 +79,7 @@ class LoginPage extends StatelessWidget {
                         //画面遷移
                         await Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => RegisterPage(),
+                          MaterialPageRoute(builder: (context) => RegisterPage.wrapped(),
                             fullscreenDialog: true,
                           ),
                         );

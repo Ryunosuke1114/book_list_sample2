@@ -2,45 +2,59 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:state_notifier/state_notifier.dart';
 
-class RegisterModel extends ChangeNotifier{
+part 'register_state.freezed.dart';
+
+@freezed
+class RegisterPageState with _$RegisterPageState {
+  const factory RegisterPageState({
+    String? email,
+    String? password,
+    @Default(false) bool isLoading,
+  }) = _RegisterPageState;
+}
+
+class RegisterModel extends StateNotifier<RegisterPageState>{
+  RegisterModel() : super(const RegisterPageState());
 
   final titleController = TextEditingController();
   final authorController = TextEditingController();
 
-  String? email;
-  String? password;
-
-  bool isLoading = false;
+  get isLoading => false;
 
   void startLoading(){
-    isLoading = true;
-    notifyListeners();
+    state = state.copyWith(
+        isLoading: true
+    );
   }
 
   void endLoading(){
-    isLoading = false;
-    notifyListeners();
+    state.isLoading;
   }
 
   void setEmail(String email){
-    this.email = email;
-    notifyListeners();
+    state.email;
   }
 
   void setPassword(String password){
-    this.password = password;
-    notifyListeners();
+    state.password;
   }
 
   Future signUp() async {
-    this.email = titleController.text;
-    this.password = authorController.text;
+    state = state.copyWith(
+        email :titleController.text
+    );
 
-    if (email != null && password != null){
+    state = state.copyWith(
+        password :titleController.text
+    );
+
+    if (state.email != null && state.password != null){
       //firebase authでユーザー作成
       final userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email!, password: password!);
+          .createUserWithEmailAndPassword(email: state.email!, password: state.password!);
       final user = userCredential.user;
 
       if (user !=  null){
@@ -50,7 +64,7 @@ class RegisterModel extends ChangeNotifier{
 
         await doc.set({
           "uid": uid,
-          "email": email,
+          "email": state.email,
         });
       }
     }
